@@ -16,7 +16,7 @@ public class SensorSuite {
      * 
      * @return Distance to object in inches.
      */
-    private double getUltraSonicInches() {
+    public double getUltraSonicInches() {
         double proximity = (_ultraSonic.getVoltage() + 0.33104) / 0.17741;
 
         return (double) Math.round(proximity * 1000) / 1000;

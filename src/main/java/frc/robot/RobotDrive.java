@@ -77,27 +77,27 @@ public class RobotDrive {
 
 	public void hatchAlign(Direction direction, double speed) {
 		SmartDashboard.putString("Status", "startedTurning");
-		double leftProximity = getUltraSonicInches();
+		double leftProximity = _sensorSuite.getUltraSonicInches();
 		SmartDashboard.putNumber("Status", leftProximity);
 		while (leftProximity >= 30 || leftProximity <= 2) {
 			spin(direction, speed);
 			SmartDashboard.putNumber("Status", leftProximity);
-			leftProximity = getUltraSonicInches();
+			leftProximity = _sensorSuite.getUltraSonicInches();
 		}
 
 		stop();
 		SmartDashboard.putString("Status", "stoppedTurning");
 
-		double oldLeftProximity = getUltraSonicInches();
+		double oldLeftProximity = _sensorSuite.getUltraSonicInches();
 		spin(direction, speed);
 
-		while (oldLeftProximity != getUltraSonicInches()) {
-			SmartDashboard.putNumber("Left Proximity", getUltraSonicInches());
+		while (oldLeftProximity != _sensorSuite.getUltraSonicInches()) {
+			SmartDashboard.putNumber("Left Proximity", _sensorSuite.getUltraSonicInches());
 			SmartDashboard.putString("Status2", "secondLoop");
 
 			spin(direction, speed);
 			oldLeftProximity = leftProximity;
-			leftProximity = getUltraSonicInches();
+			leftProximity = _sensorSuite.getUltraSonicInches();
 			SmartDashboard.putNumber("Old Left Proximity", oldLeftProximity);
 			SmartDashboard.putNumber("Left Proximity", leftProximity);
 		}
@@ -127,17 +127,17 @@ public class RobotDrive {
 	public void approachHatch() {
 		SmartDashboard.putString("Status3", "stopped Second Loop");
 		double proximityOutOfRange = 30.042;
-		double leftProximity = getUltraSonicInches();
+		double leftProximity = _sensorSuite.getUltraSonicInches();
 
 		while (leftProximity == proximityOutOfRange) {
 			DriveForward(0.4);
-			leftProximity = getUltraSonicInches();
+			leftProximity = _sensorSuite.getUltraSonicInches();
 		}
 
 		while (leftProximity > 4 && leftProximity != proximityOutOfRange) {
 			SmartDashboard.putString("Status3", "inside Loop");
 			DriveForward(0.2);
-			leftProximity = getUltraSonicInches();
+			leftProximity = _sensorSuite.getUltraSonicInches();
 			SmartDashboard.putNumber("Left Proximity", leftProximity);
 		}
 
