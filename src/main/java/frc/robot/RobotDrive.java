@@ -16,6 +16,9 @@ public class RobotDrive {
 		_backLeft = new WPI_TalonSRX(3);
 	}
 
+	/**
+	 * Used for Teleop Drive.
+	 */
 	public void drive() {
 		double RightTrigger = _controller.RightTrigger();
 		double LeftTrigger = _controller.LeftTrigger();
@@ -53,6 +56,9 @@ public class RobotDrive {
 		_backRight.set(RightPower * Limiter);
 	}
 
+	/**
+	 * Used for autonomous operations
+	 */
 	public void DriveForward(double speed) {
 		// TODO: implement for new motors!
 		// LeftMotor.set(-speed);
@@ -75,6 +81,9 @@ public class RobotDrive {
 		}
 	}
 
+	/**
+	 * Aligns the robot to a hatch placement location.
+	 */
 	public void hatchAlign(Direction direction, double speed) {
 		SmartDashboard.putString("Status", "startedTurning");
 		double leftProximity = _sensorSuite.getUltraSonicInches();
@@ -107,6 +116,12 @@ public class RobotDrive {
 		SmartDashboard.putString("Status2", "stopped Second Loop");
 	}
 
+	/**
+	 * Spins the robot in the given direction at the given speed.
+	 * 
+	 * @param direction An Enum representing Left or Right.
+	 * @param speed     A decimal representation, in the range -1.0 to 1.0.
+	 */
 	public void spin(Direction direction, double speed) {
 		// TODO: update for new motors!
 		// if (direction == Direction.Right) {
@@ -118,12 +133,18 @@ public class RobotDrive {
 		// }
 	}
 
+	/**
+	 * Stops the robot.
+	 */
 	public void stop() {
 		// TODO: update for new motors!
 		// LeftMotor.set(0);
 		// RightMotor.set(0);
 	}
 
+	/**
+	 * Approaches a hatch placement location.
+	 */
 	public void approachHatch() {
 		SmartDashboard.putString("Status3", "stopped Second Loop");
 		double proximityOutOfRange = 30.042;
