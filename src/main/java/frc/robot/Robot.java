@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
   private PlaystationController _controller;
+  private SensorSuite _sensorSuite;
   private RobotDrive _drive;
   private boolean _isPlacingHatch = false;
 
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
-    _drive = new RobotDrive(_controller);
+    _drive = new RobotDrive(_controller, _sensorSuite);
   }
 
   /**
