@@ -1,23 +1,19 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotDrive {
 	private PlaystationController _controller;
 	private WPI_TalonSRX _frontRight, _frontLeft, _backRight, _backLeft;
+	private SensorSuite _sensorSuite;
 
-	// Note: items plugged into DIO ports are usually AnalogInput type
-	AnalogInput _ultraSonic;
-
-	public RobotDrive(PlaystationController controller) {
+	public RobotDrive(PlaystationController controller, SensorSuite sensorSuite) {
 		_controller = controller;
 		_frontRight = new WPI_TalonSRX(0);
 		_frontLeft = new WPI_TalonSRX(1);
 		_backRight = new WPI_TalonSRX(2);
 		_backLeft = new WPI_TalonSRX(3);
-		_ultraSonic = new AnalogInput(2);
 	}
 
 	public void drive() {
@@ -55,16 +51,6 @@ public class RobotDrive {
 		_backLeft.set(-LeftPower * Limiter);
 		_frontRight.set(RightPower * Limiter);
 		_backRight.set(RightPower * Limiter);
-	}
-
-	// UltraSonic Sensor begins to become unreliable around 13 inches away, Sensor
-	// also only reads if its 2 inches away
-	// This returns distances with 2 decimal points of accuracy
-	private double getUltraSonicInches() {
-		double proximity = (_ultraSonic.getVoltage() + 0.33104) / 0.17741;
-		// SmartDashboard.putNumber("Status", proximity);
-		return (double) Math.round(proximity * 1000) / 1000;
-
 	}
 
 	public void DriveForward(double speed) {
