@@ -78,11 +78,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     _drive.drive();
 
-    if (!_isPlacingHatch) {
-      _isPlacingHatch = true;
-      _drive.hatchAlign(Direction.Right, .4);
-      _drive.approachHatch();
-    }
+    // if (!_isPlacingHatch) {
+    //   _isPlacingHatch = true;
+    //   // _drive.hatchAlign(Direction.Right, .4);
+    //   // _drive.approachHatch();
+    // }
   }
 
   /**

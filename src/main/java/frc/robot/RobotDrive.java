@@ -1,19 +1,21 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotDrive {
 	private PlaystationController _controller;
-	private WPI_TalonSRX _frontRight, _frontLeft, _backRight, _backLeft;
-	private SensorSuite _sensorSuite;
+	private WPI_VictorSPX _frontRight, _frontLeft, _backRight, _backLeft, _intakeMotor;
+	// private SensorSuite _sensorSuite;
 
 	public RobotDrive(PlaystationController controller, SensorSuite sensorSuite) {
 		_controller = controller;
-		_frontRight = new WPI_TalonSRX(0);
-		_frontLeft = new WPI_TalonSRX(1);
-		_backRight = new WPI_TalonSRX(2);
-		_backLeft = new WPI_TalonSRX(3);
+		_frontRight = new WPI_VictorSPX(2);
+		_frontLeft = new WPI_VictorSPX(0);
+		_backRight = new WPI_VictorSPX(3);
+		_backLeft = new WPI_VictorSPX(1);
+		//_intakeMotor = new WPI_VictorSPX(5);
 	}
 
 	/**
@@ -50,10 +52,25 @@ public class RobotDrive {
 			move = "Straight ";
 		}
 
-		_frontLeft.set(-LeftPower * Limiter);
-		_backLeft.set(-LeftPower * Limiter);
-		_frontRight.set(RightPower * Limiter);
-		_backRight.set(RightPower * Limiter);
+		_frontLeft.set(LeftPower * Limiter);
+		_backLeft.set(LeftPower * Limiter);
+		_frontRight.set(-RightPower * Limiter);
+		_backRight.set(-RightPower * Limiter);
+	}
+
+	public void catchDisk() {
+		/*
+		button press to turn motor on
+
+		intake motor on 
+		if sensor ticks
+		intake motor off
+		flip motor on for set time or until encoder
+
+
+		
+		*/
+
 	}
 
 	/**
@@ -84,37 +101,38 @@ public class RobotDrive {
 	/**
 	 * Aligns the robot to a hatch placement location.
 	 */
-	public void hatchAlign(Direction direction, double speed) {
-		SmartDashboard.putString("Status", "startedTurning");
-		double leftProximity = _sensorSuite.getUltraSonicInches();
-		SmartDashboard.putNumber("Status", leftProximity);
-		while (leftProximity >= 30 || leftProximity <= 2) {
-			spin(direction, speed);
-			SmartDashboard.putNumber("Status", leftProximity);
-			leftProximity = _sensorSuite.getUltraSonicInches();
-		}
+	// public void hatchAlign(Direction direction, double speed) {
+	// SmartDashboard.putString("Status", "startedTurning");
+	// double leftProximity = _sensorSuite.getUltraSonicInches();
+	// SmartDashboard.putNumber("Status", leftProximity);
+	// while (leftProximity >= 30 || leftProximity <= 2) {
+	// spin(direction, speed);
+	// SmartDashboard.putNumber("Status", leftProximity);
+	// leftProximity = _sensorSuite.getUltraSonicInches();
+	// }
 
-		stop();
-		SmartDashboard.putString("Status", "stoppedTurning");
+	// stop();
+	// SmartDashboard.putString("Status", "stoppedTurning");
 
-		double oldLeftProximity = _sensorSuite.getUltraSonicInches();
-		spin(direction, speed);
+	// double oldLeftProximity = _sensorSuite.getUltraSonicInches();
+	// spin(direction, speed);
 
-		while (oldLeftProximity != _sensorSuite.getUltraSonicInches()) {
-			SmartDashboard.putNumber("Left Proximity", _sensorSuite.getUltraSonicInches());
-			SmartDashboard.putString("Status2", "secondLoop");
+	// while (oldLeftProximity != _sensorSuite.getUltraSonicInches()) {
+	// SmartDashboard.putNumber("Left Proximity",
+	// _sensorSuite.getUltraSonicInches());
+	// SmartDashboard.putString("Status2", "secondLoop");
 
-			spin(direction, speed);
-			oldLeftProximity = leftProximity;
-			leftProximity = _sensorSuite.getUltraSonicInches();
-			SmartDashboard.putNumber("Old Left Proximity", oldLeftProximity);
-			SmartDashboard.putNumber("Left Proximity", leftProximity);
-		}
+	// spin(direction, speed);
+	// oldLeftProximity = leftProximity;
+	// leftProximity = _sensorSuite.getUltraSonicInches();
+	// SmartDashboard.putNumber("Old Left Proximity", oldLeftProximity);
+	// SmartDashboard.putNumber("Left Proximity", leftProximity);
+	// }
 
-		stop();
-		SmartDashboard.putNumber("Old Left Proximity", oldLeftProximity);
-		SmartDashboard.putString("Status2", "stopped Second Loop");
-	}
+	// stop();
+	// SmartDashboard.putNumber("Old Left Proximity", oldLeftProximity);
+	// SmartDashboard.putString("Status2", "stopped Second Loop");
+	// }
 
 	/**
 	 * Spins the robot in the given direction at the given speed.
@@ -145,24 +163,24 @@ public class RobotDrive {
 	/**
 	 * Approaches a hatch placement location.
 	 */
-	public void approachHatch() {
-		SmartDashboard.putString("Status3", "stopped Second Loop");
-		double proximityOutOfRange = 30.042;
-		double leftProximity = _sensorSuite.getUltraSonicInches();
+	// public void approachHatch() {
+	// SmartDashboard.putString("Status3", "stopped Second Loop");
+	// double proximityOutOfRange = 30.042;
+	// double leftProximity = _sensorSuite.getUltraSonicInches();
 
-		while (leftProximity == proximityOutOfRange) {
-			DriveForward(0.4);
-			leftProximity = _sensorSuite.getUltraSonicInches();
-		}
+	// while (leftProximity == proximityOutOfRange) {
+	// DriveForward(0.4);
+	// leftProximity = _sensorSuite.getUltraSonicInches();
+	// }
 
-		while (leftProximity > 4 && leftProximity != proximityOutOfRange) {
-			SmartDashboard.putString("Status3", "inside Loop");
-			DriveForward(0.2);
-			leftProximity = _sensorSuite.getUltraSonicInches();
-			SmartDashboard.putNumber("Left Proximity", leftProximity);
-		}
+	// while (leftProximity > 4 && leftProximity != proximityOutOfRange) {
+	// SmartDashboard.putString("Status3", "inside Loop");
+	// DriveForward(0.2);
+	// leftProximity = _sensorSuite.getUltraSonicInches();
+	// SmartDashboard.putNumber("Left Proximity", leftProximity);
+	// }
 
-		SmartDashboard.putString("Status3", "stop");
-		stop();
-	}
+	// SmartDashboard.putString("Status3", "stop");
+	// stop();
+	// }
 }
