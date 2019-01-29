@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
   private PlaystationController _controller;
   private SensorSuite _sensorSuite;
   private RobotDrive _drive;
+  private Lift _lift;
   private boolean _isPlacingHatch = false;
 
   /**
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     _controller = new PlaystationController(0);
     _sensorSuite = new SensorSuite();
     _drive = new RobotDrive(_controller, _sensorSuite);
+    _lift = new Lift(_controller);
   }
 
   /**
@@ -77,7 +79,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     _drive.drive();
-
+    _lift.LiftTheLift();
     // if (!_isPlacingHatch) {
     //   _isPlacingHatch = true;
     //   // _drive.hatchAlign(Direction.Right, .4);
