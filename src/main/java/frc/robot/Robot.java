@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
   private RobotDrive _drive;
   private Lift _lift;
   private boolean _isPlacingHatch = false;
+  private HatchSequences _HatchSequences;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -29,10 +30,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    _controller = new PlaystationController(0);
-    _sensorSuite = new SensorSuite();
+  _controller = new PlaystationController(0);
+  //  _sensorSuite = new SensorSuite();
     _drive = new RobotDrive(_controller, _sensorSuite);
-    _lift = new Lift(_controller);
+  //  _lift = new Lift(_controller);
   }
 
   /**
@@ -79,7 +80,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     _drive.drive();
-    _lift.LiftTheLift();
+    //_lift.liftTheLift();
+  //  _HatchSequences.fullSequence();
+
+
+
+    
+  
+
+    
     // if (!_isPlacingHatch) {
     //   _isPlacingHatch = true;
     //   // _drive.hatchAlign(Direction.Right, .4);
