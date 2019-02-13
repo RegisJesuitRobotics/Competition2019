@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
   private SensorSuite _sensorSuite;
   private RobotDrive _drive;
   private boolean _isPlacingHatch = false;
+  private CameraView _Camera;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     _controller = new PlaystationController(0);
     _sensorSuite = new SensorSuite();
+    _Camera = new CameraView();
+    _Camera.cameraInit();
     _drive = new RobotDrive(_controller, _sensorSuite);
   }
 
