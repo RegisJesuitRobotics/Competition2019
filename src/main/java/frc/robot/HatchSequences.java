@@ -75,11 +75,6 @@ public class HatchSequences {
 
 	}
 
-	public void DriveForward(double speed) {
-		LeftMotor.set(-speed);
-		RightMotor.set(speed);
-	}
-
 	// THIS ONE IMPORTANT
 	public void FindWhiteLine() {
 		SmartDashboard.putNumber("Line Follower", LineFollower.getVoltage());
@@ -146,11 +141,6 @@ public class HatchSequences {
 		}
 	}
 
-	public void stop() {
-		LeftMotor.set(0);
-		RightMotor.set(0);
-	}
-
 	public void approachHatch() {
 		if (HasBeenStopped == false) {
 			SmartDashboard.putString("Status3", "stopped Second Loop");
@@ -178,6 +168,14 @@ public class HatchSequences {
 			stop();
 		}
 	}
+
+
+
+	
+	public void DriveForward(double speed) {
+		LeftMotor.set(-speed);
+		RightMotor.set(speed);
+	}
 	public void moveAnAmount(double speed, double time) {
 		LeftMotor.set(speed);
 		RightMotor.set(speed);
@@ -185,4 +183,11 @@ public class HatchSequences {
 		stop();
 
 	}
+	public void stop() {
+		LeftMotor.set(0);
+		RightMotor.set(0);
+	}
+
+
+
 }

@@ -11,10 +11,10 @@ public class RobotDrive {
 
 	public RobotDrive(PlaystationController controller, SensorSuite sensorSuite) {
 		_controller = controller;
-		_frontRight = new WPI_VictorSPX(2);
-		_frontLeft = new WPI_VictorSPX(0);
-		_backRight = new WPI_VictorSPX(3);
-		_backLeft = new WPI_VictorSPX(1);
+		_frontRight = new WPI_VictorSPX(4);
+		_frontLeft = new WPI_VictorSPX(2);
+		_backRight = new WPI_VictorSPX(1);
+		_backLeft = new WPI_VictorSPX(3);
 		//_intakeMotor = new WPI_VictorSPX(5);
 	}
 
@@ -57,7 +57,7 @@ public class RobotDrive {
 		_frontRight.set(-RightPower * Limiter);
 		_backRight.set(-RightPower * Limiter);
 	}
-  
+	
 	public void catchDisk() {
 		/*
 		button press to turn motor on

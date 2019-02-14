@@ -6,9 +6,6 @@ public class SensorSuite {
     // Note: items plugged into DIO ports are usually AnalogInput type
     AnalogInput _ultraSonic;
 
-    // TODO: We should implement our optical gaffer tape sensor here
-    // Also, implement the laser distance sensor here
-
     public SensorSuite() {
         _ultraSonic = new AnalogInput(2);
     }
