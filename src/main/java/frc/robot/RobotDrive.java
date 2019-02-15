@@ -84,7 +84,10 @@ public class RobotDrive {
 
 	public void FindWhiteLine() {
 		/*
-		
+		public void getWhiteLine() {
+		//2.5 is the threshold
+		SmartDashboard.putNumber("Line Follower Value", LineFollower.getVoltage());
+	}
 		*/
 
 		boolean isWhiteLineFound = false;
