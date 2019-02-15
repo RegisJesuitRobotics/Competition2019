@@ -15,11 +15,7 @@ public class Robot extends TimedRobot {
   private RobotDrive _drive;
   private Lift _lift;
   private boolean _isPlacingHatch = false;
-<<<<<<< HEAD
   private HatchSequences _HatchSequences;
-=======
-  private CameraView _Camera;
->>>>>>> 74af66ba62a453f0e9fdb8fed7b40a8e0f8cf921
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -28,12 +24,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
-<<<<<<< HEAD
-=======
-    _sensorSuite = new SensorSuite();
-    _Camera = new CameraView();
-    _Camera.cameraInit();
->>>>>>> 74af66ba62a453f0e9fdb8fed7b40a8e0f8cf921
     _drive = new RobotDrive(_controller, _sensorSuite);
     _lift = new Lift(_controller);
   }
