@@ -88,7 +88,7 @@ public class Lift {
                     encoderDifference = currentEncoderValue - lastEncoderValue;
                     liftMotor.set(0.2);
     
-                    if (_playstation.ButtonRelasequare() == true) {
+                    if (_playstation.ButtonSquareRelease() == true) {
                         presetLiftIsRunning = false;
                     }
     

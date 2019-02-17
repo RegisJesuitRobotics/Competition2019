@@ -9,27 +9,27 @@ public class PlaystationController extends Joystick {
 	public boolean ButtonSquare() {
 		return super.getRawButton(1);
 	}
-	public boolean ButtonRelasequare(){
+	public boolean ButtonSquareRelease(){
 		return super.getRawButtonReleased(1);
 	}
 	public boolean ButtonX() {
 		return super.getRawButton(2);
 	}
-	public boolean ButtonRelaseX(){
+	public boolean ButtonXRelease(){
 		return super.getRawButtonReleased(2);
 	}
 	public boolean ButtonCircle() {
 		return super.getRawButton(3);
 	}
 	
-	public boolean ButtonRelaseircle(){
+	public boolean ButtonCircleRelease(){
 		return super.getRawButtonReleased(3);
 	}
 
 	public boolean ButtonTriangle() {
 		return super.getRawButton(4);
 	}
-	public boolean ButtonRelaseTriangle(){
+	public boolean ButtonTriangleRelease(){
 		return super.getRawButtonReleased(4);
 	}
 	public boolean ButtonL1() {
@@ -105,4 +105,35 @@ public class PlaystationController extends Joystick {
 		}
 	}
 
+	public boolean isDPadUp() {
+		return super.getPOV() == 0;
+	}
+	
+	public boolean isDPadRight() {
+		return super.getPOV() == 90;
+	}
+
+	public boolean isDPadDown() {
+		return super.getPOV() == 180;
+	}
+
+	public boolean isDPadLeft() {
+		return super.getPOV() == 270;
+	}
+
+	public boolean isDPadUpRight() {
+		return super.getPOV() == 45;
+	}
+
+	public boolean isDPadDownRight() {
+		return super.getPOV() == 135;
+	}
+
+	public boolean isDPadDownLeft() {
+		return super.getPOV() == 225;
+	}
+
+	public boolean isDPadUpLeft() {
+		return super.getPOV() == 315;
+	}
 }
