@@ -1,12 +1,13 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Controller;
-import edu.wpi.first.wpilibj.command.Command;;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
 
 public class Lift {
     CANSparkMax liftMotor;
@@ -16,23 +17,22 @@ public class Lift {
     double lastEncoderValue, currentEncoderValue, encoderDifference;
     double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch;
 
-class CallLifter extends Command{
-    double lifterHeight;
-    public CallLifter(double lifterHeight) {
-        this.lifterHeight = lifterHeight;
-    }
 
-    @Override
-    protected boolean isFinished() {
-        return true;
-    }
+    class CallLifter extends Command {
+        double lifterHeight;
 
-    @Override
-    protected void execute() {
-        autoLift(lifterHeight);
+        public CallLifter(double lifterHeight) {
+            this.lifterHeight = lifterHeight;
+        }
+        @Override
+        protected boolean isFinished() {
+            return true;
+        }
+        @Override
+        protected void execute() {
+            autoLift(lifterHeight);
+        }
     }
-
-}
 
     public Lift(PlaystationController controller) {
         liftMotor = new CANSparkMax(13, MotorType.kBrushless);
@@ -48,96 +48,69 @@ class CallLifter extends Command{
         LowHatch = 41.64;
         MidHatch = 79.76;
         HighHatch = 113;
-        
-        SmartDashboard.putData("Lifter Low Ball", new CallLifter(LowBall));
-        SmartDashboard.putData("Lifter Mid Ball", new CallLifter(MidBall));
-        SmartDashboard.putData("Lifter High Ball", new CallLifter(HighBall));
-        SmartDashboard.putData("Lifter Low Hatch", new CallLifter(LowHatch));
-        SmartDashboard.putData("Lifter Mid Hatch", new CallLifter(MidHatch));
-        SmartDashboard.putData("Lifter High Hatch", new CallLifter(HighHatch));
 
+    }
 
+    public void getButtons() {
+
+        if (SmartDashboard.getBoolean("LowBall", false) == true && presetLiftIsRunning == false) {
+            autoLift(LowBall);
+        } else if (SmartDashboard.getBoolean("Midball", false) == true && presetLiftIsRunning == false) {
+            autoLift(MidBall);
+        } else if (SmartDashboard.getBoolean("Highball", false) == true && presetLiftIsRunning == false) {
+            autoLift(HighBall);
+        } else if (SmartDashboard.getBoolean("LowHatch", false) == true && presetLiftIsRunning == false) {
+            autoLift(LowHatch);
+        } else if (SmartDashboard.getBoolean("MidHatch", false) == true && presetLiftIsRunning == false) {
+            autoLift(MidHatch);
+        } else if (SmartDashboard.getBoolean("HighHatch", false) == true && presetLiftIsRunning == false) {
+            autoLift(HighHatch);
+        }
+
+        SmartDashboard.putBoolean("LowBall", false);
+        SmartDashboard.putBoolean("MidBall", false);
+        SmartDashboard.putBoolean("HighBall", false);
+        SmartDashboard.putBoolean("LowHatch", false);
+        SmartDashboard.putBoolean("MidHatch", false);
+        SmartDashboard.putBoolean("HighHatch", false);
     }
 
     public void autoLift(double height) {
-        boolean LiftIsRunning = true;
-         {
-            
-            while(LiftIsRunning == true && encoderDifference < height){
-                currentEncoderValue = liftMotorEncoder.getPosition();
-                encoderDifference = currentEncoderValue - lastEncoderValue;
-                liftMotor.set(0.5);
 
-                if(_playstation.ButtonRelasequare() == true){
-                    LiftIsRunning = false;
+        // Thread t = new Thread(() -> {
+        //     boolean flag = true;
+        // while (flag == true) {
+        
+            presetLiftIsRunning = true;
+            {
+                while (presetLiftIsRunning == true && encoderDifference < height) {
+                    currentEncoderValue = liftMotorEncoder.getPosition();
+                    encoderDifference = currentEncoderValue - lastEncoderValue;
+                    liftMotor.set(0.2);
+    
+                    if (_playstation.ButtonRelasequare() == true) {
+                        presetLiftIsRunning = false;
+                    }
+    
                 }
-
+    
+                liftMotor.set(0);
+                presetLiftIsRunning = false;
             }
 
-            liftMotor.set(0);
 
-        } 
-        }
 
-        public void test(){
-            if (_playstation.ButtonRelaseircle() == true){
-                LifttoLowBall();
-                
-        }
+
+        //     flag = false;
+        // }
+        // });
+        //t.start();
     }
 
-        public void LifttoLowBall(){
-            //SmartDashboard.putData("Lifter Low Ball", new LifttoLowBall(encoderDifference));
-            if (encoderDifference < LowBall){
-                autoLift(LowBall);
-                
-
-            }
-        }
-
-        public void LifttoMidBall(){
-            if (encoderDifference < MidBall){
-                autoLift(MidBall);
-
-
-            }
-        }
-        public void LifttoHighBall(){
-            if (encoderDifference < HighBall){
-                autoLift(HighBall);
-
-
-            }
-        }
-        public void LifttoLowHatch(){
-            if (encoderDifference < LowHatch){
-                autoLift(LowHatch);
-
-
-            }
-        }
-        public void LifttoMidHatch(){
-            if (encoderDifference < MidHatch){
-                autoLift(MidHatch);
-
-
-            }
-        }
-        public void LifttoHighHatch(){
-            if (encoderDifference < HighHatch){
-                autoLift(HighHatch);
-
-
-            }
-        }
-
-
-    
-
     public void LiftHold() {
-        
+
         if (_playstation.ButtonTriangle() == true) {
-            liftMotor.set(0.5);
+            liftMotor.set(0.4);
         } else if (_playstation.ButtonX() == true) {
             liftMotor.set(-0.25);
         } else if (presetLiftIsRunning == false) {
@@ -145,14 +118,12 @@ class CallLifter extends Command{
         }
     }
 
-    public void compareEncoder(){
+    public void compareEncoder() {
         currentEncoderValue = liftMotorEncoder.getPosition();
         encoderDifference = currentEncoderValue - lastEncoderValue;
-    
-        SmartDashboard.putNumber("Encoder Value Difference", encoderDifference);
+
+        SmartDashboard.putNumber("Encoder value Difference", encoderDifference);
         SmartDashboard.putNumber("Current Encoder Value", currentEncoderValue);
-
-
 
     }
 }

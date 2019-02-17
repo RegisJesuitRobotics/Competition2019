@@ -11,11 +11,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public class Robot extends TimedRobot {
   private PlaystationController _controller;
-  private SensorSuite _sensorSuite;
   private RobotDrive _drive;
   private Lift _lift;
   private boolean _isPlacingHatch = false;
-  private HatchSequences _HatchSequences;
+
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -24,7 +23,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
-    _drive = new RobotDrive(_controller, _sensorSuite);
+    _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
   }
 
@@ -74,7 +73,7 @@ public class Robot extends TimedRobot {
     _drive.drive();
     _lift.LiftHold();
     _lift.compareEncoder();
-    _lift.test();
+    _lift.getButtons();
   }
 
   /**
