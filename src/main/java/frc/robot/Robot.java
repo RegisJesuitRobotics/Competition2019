@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
   private PlaystationController _controller;
   private RobotDrive _drive;
+  private Jaw _jaw;
   private Lift _lift;
   private boolean _isPlacingHatch = false;
 
@@ -22,10 +23,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     _controller = new PlaystationController(0);
+    _jaw = new Jaw (_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
   }
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -72,9 +76,13 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     _drive.drive();
     _lift.LiftHold();
-    _lift.compareEncoder();
-    _lift.getButtons();
-  }
+    // _lift.compareEncoder();
+    // _lift.getButtons();
+    _jaw.feedHatch();
+    _jaw.hatchRotate();
+    _jaw.ballRotate();
+    _jaw.feedBall();
+}
 
   /**
    * This function is called periodically during test mode.

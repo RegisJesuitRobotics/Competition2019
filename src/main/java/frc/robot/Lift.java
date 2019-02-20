@@ -11,36 +11,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
 
 public class Lift {
     CANSparkMax liftMotor;
-    CANEncoder liftMotorEncoder;
+  //  CANEncoder liftMotorEncoder;
     PlaystationController _playstation;
     boolean presetLiftIsRunning = false;
     double lastEncoderValue, currentEncoderValue, encoderDifference;
     double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch;
 
-
-    class CallLifter extends Command {
-        double lifterHeight;
-
-        public CallLifter(double lifterHeight) {
-            this.lifterHeight = lifterHeight;
-        }
-        @Override
-        protected boolean isFinished() {
-            return true;
-        }
-        @Override
-        protected void execute() {
-            autoLift(lifterHeight);
-        }
-    }
-
     public Lift(PlaystationController controller) {
-        liftMotor = new CANSparkMax(13, MotorType.kBrushless);
-        liftMotorEncoder = liftMotor.getEncoder();
+          liftMotor = new CANSparkMax(13, MotorType.kBrushed);
+      //  liftMotorEncoder = liftMotor.getEncoder();
         _playstation = controller;
         encoderDifference = 0;
         presetLiftIsRunning = false;
-        lastEncoderValue = liftMotorEncoder.getPosition();
+      //  lastEncoderValue = liftMotorEncoder.getPosition();
 
         LowBall = 50;
         MidBall = 87.64;
@@ -51,79 +34,79 @@ public class Lift {
 
     }
 
-    public void getButtons() {
+    // public void getButtons() {
 
-        if (SmartDashboard.getBoolean("LowBall", false) == true && presetLiftIsRunning == false) {
-            autoLift(LowBall);
-        } else if (SmartDashboard.getBoolean("Midball", false) == true && presetLiftIsRunning == false) {
-            autoLift(MidBall);
-        } else if (SmartDashboard.getBoolean("Highball", false) == true && presetLiftIsRunning == false) {
-            autoLift(HighBall);
-        } else if (SmartDashboard.getBoolean("LowHatch", false) == true && presetLiftIsRunning == false) {
-            autoLift(LowHatch);
-        } else if (SmartDashboard.getBoolean("MidHatch", false) == true && presetLiftIsRunning == false) {
-            autoLift(MidHatch);
-        } else if (SmartDashboard.getBoolean("HighHatch", false) == true && presetLiftIsRunning == false) {
-            autoLift(HighHatch);
-        }
+    //     if (SmartDashboard.getBoolean("LowBall", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(LowBall);
+    //     } else if (SmartDashboard.getBoolean("Midball", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(MidBall);
+    //     } else if (SmartDashboard.getBoolean("Highball", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(HighBall);
+    //     } else if (SmartDashboard.getBoolean("LowHatch", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(LowHatch);
+    //     } else if (SmartDashboard.getBoolean("MidHatch", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(MidHatch);
+    //     } else if (SmartDashboard.getBoolean("HighHatch", false) == true && presetLiftIsRunning == false) {
+    //         autoLift(HighHatch);
+    //     }
 
-        SmartDashboard.putBoolean("LowBall", false);
-        SmartDashboard.putBoolean("MidBall", false);
-        SmartDashboard.putBoolean("HighBall", false);
-        SmartDashboard.putBoolean("LowHatch", false);
-        SmartDashboard.putBoolean("MidHatch", false);
-        SmartDashboard.putBoolean("HighHatch", false);
-    }
+    //     SmartDashboard.putBoolean("LowBall", false);
+    //     SmartDashboard.putBoolean("MidBall", false);
+    //     SmartDashboard.putBoolean("HighBall", false);
+    //     SmartDashboard.putBoolean("LowHatch", false);
+    //     SmartDashboard.putBoolean("MidHatch", false);
+    //     SmartDashboard.putBoolean("HighHatch", false);
+    // }
 
-    public void autoLift(double height) {
+    // public void autoLift(double height) {
 
-        // Thread t = new Thread(() -> {
-        //     boolean flag = true;
-        // while (flag == true) {
+    //     // Thread t = new Thread(() -> {
+    //     //     boolean flag = true;
+    //     // while (flag == true) {
         
-            presetLiftIsRunning = true;
-            {
-                while (presetLiftIsRunning == true && encoderDifference < height) {
-                    currentEncoderValue = liftMotorEncoder.getPosition();
-                    encoderDifference = currentEncoderValue - lastEncoderValue;
-                    liftMotor.set(0.2);
+    //         presetLiftIsRunning = true;
+    //         {
+    //             while (presetLiftIsRunning == true && encoderDifference < height) {
+    //                 currentEncoderValue = liftMotorEncoder.getPosition();
+    //                 encoderDifference = currentEncoderValue - lastEncoderValue;
+    //                 liftMotor.set(0.7);
     
-                    if (_playstation.ButtonSquareRelease() == true) {
-                        presetLiftIsRunning = false;
-                    }
+    //                 if (_playstation.ButtonSquareRelease() == true) {
+    //                     presetLiftIsRunning = false;
+    //                 }
     
-                }
+    //             }
     
-                liftMotor.set(0);
-                presetLiftIsRunning = false;
-            }
+    //             liftMotor.set(0);
+    //             presetLiftIsRunning = false;
+    //         }
 
 
 
 
-        //     flag = false;
-        // }
-        // });
-        //t.start();
-    }
+    //     //     flag = false;
+    //     // }
+    //     // });
+    //     //t.start();
+    // }
 
     public void LiftHold() {
 
         if (_playstation.ButtonTriangle() == true) {
-            liftMotor.set(0.4);
+            liftMotor.set(-.8); 
         } else if (_playstation.ButtonX() == true) {
-            liftMotor.set(-0.25);
+            liftMotor.set(0.5);
         } else if (presetLiftIsRunning == false) {
             liftMotor.set(0);
         }
     }
 
-    public void compareEncoder() {
-        currentEncoderValue = liftMotorEncoder.getPosition();
-        encoderDifference = currentEncoderValue - lastEncoderValue;
+    // public void compareEncoder() {
+    //     currentEncoderValue = liftMotorEncoder.getPosition();
+    //     encoderDifference = currentEncoderValue - lastEncoderValue;
 
-        SmartDashboard.putNumber("Encoder value Difference", encoderDifference);
-        SmartDashboard.putNumber("Current Encoder Value", currentEncoderValue);
+    //     SmartDashboard.putNumber("Encoder value Difference", encoderDifference);
+    //     SmartDashboard.putNumber("Current Encoder Value", currentEncoderValue);
 
-    }
+    // }
 }
