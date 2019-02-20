@@ -16,6 +16,7 @@ public class Lift {
     boolean presetLiftIsRunning = false;
     double lastEncoderValue, currentEncoderValue, encoderDifference;
     double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch;
+    double LiftDeadzone;
 
     public Lift(PlaystationController controller) {
           liftMotor = new CANSparkMax(13, MotorType.kBrushed);
@@ -23,6 +24,7 @@ public class Lift {
         _playstation = controller;
         encoderDifference = 0;
         presetLiftIsRunning = false;
+        LiftDeadzone = 0.1;
       //  lastEncoderValue = liftMotorEncoder.getPosition();
 
         LowBall = 50;
@@ -91,10 +93,9 @@ public class Lift {
     // }
 
     public void LiftHold() {
-
-        if (_playstation.ButtonTriangle() == true) {
+        if (_playstation.RightStickYAxis() > LiftDeadzone) {
             liftMotor.set(-.8); 
-        } else if (_playstation.ButtonX() == true) {
+        } else if (_playstation.RightStickYAxis() < -LiftDeadzone) {
             liftMotor.set(0.5);
         } else if (presetLiftIsRunning == false) {
             liftMotor.set(0);

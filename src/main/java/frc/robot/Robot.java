@@ -76,12 +76,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     _drive.drive();
     _lift.LiftHold();
-    // _lift.compareEncoder();
-    // _lift.getButtons();
-    _jaw.feedHatch();
-    _jaw.hatchRotate();
+    _jaw.feedTopJaw();
+    _jaw.bottomJawRotate();
     _jaw.ballRotate();
-    _jaw.feedBall();
+    _jaw.feedLowerJaw();
 }
 
   /**

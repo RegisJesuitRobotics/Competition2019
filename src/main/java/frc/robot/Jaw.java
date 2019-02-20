@@ -21,11 +21,11 @@ public class Jaw {
         _playstation = controller;
     }
 
-    public void feedHatch() {
+    public void feedLowerJaw() {
         // && hatchLimitSwitch.get() == true
-        if (_playstation.ButtonShare() == true) {
+        if (_playstation.ButtonL1() == true) {
             NR1_hatchIntakeMotor.set(Value.kForward);
-        } else if(_playstation.ButtonOptions() == true){
+        } else if(_playstation.ButtonR1  () == true){
             NR1_hatchIntakeMotor.set(Value.kReverse);
         }
         else {
@@ -34,10 +34,10 @@ public class Jaw {
 
     }
 
-    public void hatchRotate() {
-        if (_playstation.isDPadUp() == true) {
+    public void bottomJawRotate() {
+        if (_playstation.ButtonCircle() == true) {
             B1_hatchPivotMotor.set(Value.kReverse);
-        } else if (_playstation.isDPadDown()  == true) {
+        } else if (_playstation.ButtonX()  == true) {
             B1_hatchPivotMotor.set(Value.kForward);
         }else{
             B1_hatchPivotMotor.set(Value.kOff);
@@ -45,7 +45,7 @@ public class Jaw {
 
     }
 
-    public void feedBall() {
+    public void feedTopJaw() {
         if (_playstation.ButtonR1() == true) {
             NR2_ballIntakeMotor.set(Value.kReverse);
         } else if(_playstation.ButtonL1() == true){
@@ -58,10 +58,10 @@ public class Jaw {
     }
 
     public void ballRotate() {
-        if (_playstation.isDPadRight()  == true) {
+        if (_playstation.ButtonTriangle()  == true) {
             B2_ballPivotMotor.set(Value.kForward);
 
-        } else if (_playstation.isDPadLeft() == true) {
+        } else if (_playstation.ButtonSquare() == true) {
             B2_ballPivotMotor.set(Value.kReverse);
         }else{
             B2_ballPivotMotor.set(Value.kOff);
