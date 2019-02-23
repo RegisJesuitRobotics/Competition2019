@@ -5,13 +5,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
 
-public class Lift {
+public class Lift extends Subsystem{
     CANSparkMax liftMotor;
-  //  CANEncoder liftMotorEncoder;
+    CANEncoder liftMotorEncoder;
     PlaystationController _playstation;
     boolean presetLiftIsRunning = false;
     double lastEncoderValue, currentEncoderValue, encoderDifference;
@@ -19,8 +20,8 @@ public class Lift {
     double LiftDeadzone;
 
     public Lift(PlaystationController controller) {
-          liftMotor = new CANSparkMax(13, MotorType.kBrushed);
-      //  liftMotorEncoder = liftMotor.getEncoder();
+          liftMotor = new CANSparkMax(13, MotorType.kBrushless);
+      liftMotorEncoder = liftMotor.getEncoder();
         _playstation = controller;
         encoderDifference = 0;
         presetLiftIsRunning = false;
@@ -34,63 +35,39 @@ public class Lift {
         MidHatch = 79.76;
         HighHatch = 113;
 
+        
+        SmartDashboard.putData("LowBall", new LiftButtons(LowBall));
+        SmartDashboard.putData("MidBall", new LiftButtons(MidBall));
+        SmartDashboard.putData("HighBall", new LiftButtons(HighBall));
+        SmartDashboard.putData("LowHatch", new LiftButtons(LowHatch));
+        SmartDashboard.putData("MidHatch", new LiftButtons(MidHatch));
+        SmartDashboard.putData("HighHatch", new LiftButtons(HighHatch));
+
     }
 
-    // public void getButtons() {
+    public void getButtons() {
 
-    //     if (SmartDashboard.getBoolean("LowBall", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(LowBall);
-    //     } else if (SmartDashboard.getBoolean("Midball", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(MidBall);
-    //     } else if (SmartDashboard.getBoolean("Highball", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(HighBall);
-    //     } else if (SmartDashboard.getBoolean("LowHatch", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(LowHatch);
-    //     } else if (SmartDashboard.getBoolean("MidHatch", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(MidHatch);
-    //     } else if (SmartDashboard.getBoolean("HighHatch", false) == true && presetLiftIsRunning == false) {
-    //         autoLift(HighHatch);
-    //     }
+    }
 
-    //     SmartDashboard.putBoolean("LowBall", false);
-    //     SmartDashboard.putBoolean("MidBall", false);
-    //     SmartDashboard.putBoolean("HighBall", false);
-    //     SmartDashboard.putBoolean("LowHatch", false);
-    //     SmartDashboard.putBoolean("MidHatch", false);
-    //     SmartDashboard.putBoolean("HighHatch", false);
-    // }
-
-    // public void autoLift(double height) {
-
-    //     // Thread t = new Thread(() -> {
-    //     //     boolean flag = true;
-    //     // while (flag == true) {
+    public void autoLift(double height) {
         
-    //         presetLiftIsRunning = true;
-    //         {
-    //             while (presetLiftIsRunning == true && encoderDifference < height) {
-    //                 currentEncoderValue = liftMotorEncoder.getPosition();
-    //                 encoderDifference = currentEncoderValue - lastEncoderValue;
-    //                 liftMotor.set(0.7);
+            presetLiftIsRunning = true;
+            {
+                while (presetLiftIsRunning == true && encoderDifference < height) {
+                    currentEncoderValue = liftMotorEncoder.getPosition();
+                    encoderDifference = currentEncoderValue - lastEncoderValue;
+                    liftMotor.set(0.7);
     
-    //                 if (_playstation.ButtonSquareRelease() == true) {
-    //                     presetLiftIsRunning = false;
-    //                 }
+                    if (_playstation.ButtonSquareRelease() == true) {
+                        presetLiftIsRunning = false;
+                    }
     
-    //             }
+                }
     
-    //             liftMotor.set(0);
-    //             presetLiftIsRunning = false;
-    //         }
-
-
-
-
-    //     //     flag = false;
-    //     // }
-    //     // });
-    //     //t.start();
-    // }
+                liftMotor.set(0);
+                presetLiftIsRunning = false;
+            }
+    }
 
     public void LiftHold() {
         if (_playstation.RightStickYAxis() > LiftDeadzone) {
@@ -100,6 +77,11 @@ public class Lift {
         } else if (presetLiftIsRunning == false) {
             liftMotor.set(0);
         }
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+
     }
 
     // public void compareEncoder() {

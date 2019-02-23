@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
   private PlaystationController _controller;
   private RobotDrive _drive;
   private Jaw _jaw;
-  private Lift _lift;
+ public static Lift _lift;
   private boolean _isPlacingHatch = false;
 
   /**
@@ -28,6 +28,10 @@ public class Robot extends TimedRobot {
     _jaw = new Jaw (_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
+
+
+
+    
   }
 
 
