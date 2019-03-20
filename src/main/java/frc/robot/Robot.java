@@ -1,7 +1,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.can.*;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+// Encoder code comes from example at this URL:
+// github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/CANifier%20Quadrature/src/main/java/frc/robot/Robot.java
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -14,26 +20,22 @@ public class Robot extends TimedRobot {
   private PlaystationController _controller;
   private RobotDrive _drive;
   private Jaw _jaw;
- public static Lift _lift;
+  public Lift _lift;
+
   private boolean _isPlacingHatch = false;
 
-  /**
+  /**encoder
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
-
     _controller = new PlaystationController(0);
-    _jaw = new Jaw (_controller);
+    _jaw = new Jaw(_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
 
-
-
-    
   }
-
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -73,6 +75,11 @@ public class Robot extends TimedRobot {
 
   }
 
+  @Override
+  public void teleopInit() {
+   
+  }
+
   /**
    * This function is called periodically during operator control.
    */
@@ -81,10 +88,11 @@ public class Robot extends TimedRobot {
     _drive.drive();
     _lift.LiftHold();
     _jaw.feedTopJaw();
-    _jaw.bottomJawRotate();
-    _jaw.ballRotate();
+    _jaw.bottomJawPivot();
+    _jaw.topJawPivot();
     _jaw.feedLowerJaw();
-}
+    Scheduler.getInstance().run();
+  }
 
   /**
    * This function is called periodically during test mode.

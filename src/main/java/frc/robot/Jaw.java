@@ -3,8 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Jaw {
@@ -25,21 +23,25 @@ public class Jaw {
         // && hatchLimitSwitch.get() == true
         if (_playstation.ButtonL1() == true) {
             NR1_hatchIntakeMotor.set(Value.kForward);
+            //System.out.println("On Feed Forward Lower Jaw");
         } else if(_playstation.ButtonR1  () == true){
             NR1_hatchIntakeMotor.set(Value.kReverse);
+            //System.out.println("On Feed Reverse Lower Jaw");
         }
         else {
             NR1_hatchIntakeMotor.set(Value.kOff);
+            //System.out.println("Off Feed Lower Jaw");
         }
 
     }
 
-    public void bottomJawRotate() {
+    public void bottomJawPivot() {
         if (_playstation.ButtonCircle() == true) {
             B1_hatchPivotMotor.set(Value.kReverse);
         } else if (_playstation.ButtonX()  == true) {
             B1_hatchPivotMotor.set(Value.kForward);
-        }else{
+        }
+        else {
             B1_hatchPivotMotor.set(Value.kOff);
         }
 
@@ -51,19 +53,21 @@ public class Jaw {
         } else if(_playstation.ButtonL1() == true){
             NR2_ballIntakeMotor.set(Value.kForward);
         }
-        else if (_playstation.ButtonSquareRelease() == true) {
+        else {
             NR2_ballIntakeMotor.set(Value.kOff);
         }
 
     }
 
-    public void ballRotate() {
+    public void topJawPivot() {
         if (_playstation.ButtonTriangle()  == true) {
-            B2_ballPivotMotor.set(Value.kForward);
-
-        } else if (_playstation.ButtonSquare() == true) {
             B2_ballPivotMotor.set(Value.kReverse);
-        }else{
+            System.out.println("Top Jaw Up");
+        } else if (_playstation.ButtonSquare() == true) {
+            B2_ballPivotMotor.set(Value.kForward);
+             System.out.println("Top Jaw Down");
+        }
+        else {
             B2_ballPivotMotor.set(Value.kOff);
         }
 

@@ -71,7 +71,9 @@ public class PlaystationController extends Joystick {
 	public boolean ButtonTouchscreen() {
 		return super.getRawButton(14);
 	}
-
+	public boolean ButtonTouchscreenReleased() {
+		return super.getRawButtonReleased(14);
+	}
 	public double LeftStickXAxis() {
 		return super.getRawAxis(0);
 	}

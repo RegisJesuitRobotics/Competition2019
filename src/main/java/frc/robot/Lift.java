@@ -1,81 +1,86 @@
 package frc.robot;
 
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Lift extends Subsystem{
-    CANSparkMax liftMotor;
-    CANEncoder liftMotorEncoder;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+public class Lift extends Subsystem {
     PlaystationController _playstation;
     boolean presetLiftIsRunning = false;
     double lastEncoderValue, currentEncoderValue, encoderDifference;
-    double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch;
+    double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch, Grab, GrabberHigh;
     double LiftDeadzone;
+    WPI_TalonSRX liftMotorTalon;
 
     public Lift(PlaystationController controller) {
-          liftMotor = new CANSparkMax(13, MotorType.kBrushless);
-      liftMotorEncoder = liftMotor.getEncoder();
+        liftMotorTalon = new WPI_TalonSRX(5);
+        liftMotorTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+        liftMotorTalon.setSelectedSensorPosition(0, 0, 0);
         _playstation = controller;
         encoderDifference = 0;
+
         presetLiftIsRunning = false;
         LiftDeadzone = 0.1;
-      //  lastEncoderValue = liftMotorEncoder.getPosition();
+     
 
-        LowBall = 50;
-        MidBall = 87.64;
-        HighBall = 120.244;
-        LowHatch = 41.64;
-        MidHatch = 79.76;
-        HighHatch = 113;
+        LowBall = 23000;
+        MidBall = 55000;
+        HighBall = 78000;
+        MidHatch = 39000;
+        HighHatch = 67000;
+        Grab = 17000;
+        GrabberHigh = 80000;
 
-        
-        SmartDashboard.putData("LowBall", new LiftButtons(LowBall));
-        SmartDashboard.putData("MidBall", new LiftButtons(MidBall));
-        SmartDashboard.putData("HighBall", new LiftButtons(HighBall));
-        SmartDashboard.putData("LowHatch", new LiftButtons(LowHatch));
-        SmartDashboard.putData("MidHatch", new LiftButtons(MidHatch));
-        SmartDashboard.putData("HighHatch", new LiftButtons(HighHatch));
+        SmartDashboard.putData("LowBall", new LiftButtons(LowBall, this));
+        SmartDashboard.putData("MidBall", new LiftButtons(MidBall, this));
+        SmartDashboard.putData("HighBall", new LiftButtons(HighBall, this));
+        SmartDashboard.putData("MidHatch", new LiftButtons(MidHatch, this));
+        SmartDashboard.putData("HighHatch", new LiftButtons(HighHatch, this));
+        SmartDashboard.putData("Grab", new LiftButtons(Grab, this));
+        SmartDashboard.putData("GrabberHigh", new LiftButtons(GrabberHigh, this));
+        SmartDashboard.putData("ResetEncoder", new ResetEncoder(this));
+    
 
     }
-
-    public void getButtons() {
-
+    
+    public void setEncoderToZero(){
+    liftMotorTalon.setSelectedSensorPosition(0, 0, 0);
     }
 
     public void autoLift(double height) {
-        
-            presetLiftIsRunning = true;
-            {
-                while (presetLiftIsRunning == true && encoderDifference < height) {
-                    currentEncoderValue = liftMotorEncoder.getPosition();
-                    encoderDifference = currentEncoderValue - lastEncoderValue;
-                    liftMotor.set(0.7);
-    
-                    if (_playstation.ButtonSquareRelease() == true) {
-                        presetLiftIsRunning = false;
-                    }
-    
-                }
-    
-                liftMotor.set(0);
+        currentEncoderValue = liftMotorTalon.getSelectedSensorPosition(0);
+        presetLiftIsRunning = true;
+
+        while (presetLiftIsRunning == true && currentEncoderValue < height) {
+            currentEncoderValue = liftMotorTalon.getSelectedSensorPosition(0);
+            liftMotorTalon.set(-0.98);
+           
+            if (_playstation.ButtonTouchscreenReleased() == true) {
                 presetLiftIsRunning = false;
             }
+        }
+
+        liftMotorTalon.set(0);
+        presetLiftIsRunning = false;
+
     }
 
     public void LiftHold() {
-        if (_playstation.RightStickYAxis() > LiftDeadzone) {
-            liftMotor.set(-.8); 
-        } else if (_playstation.RightStickYAxis() < -LiftDeadzone) {
-            liftMotor.set(0.5);
+        SmartDashboard.putNumber("Encoder", liftMotorTalon.getSelectedSensorPosition(0));
+        if (_playstation.isDPadDown() == true) {
+            liftMotorTalon.set(0.7);
+        } else if (_playstation.isDPadUp() == true) {
+            liftMotorTalon.set(-0.7);
         } else if (presetLiftIsRunning == false) {
-            liftMotor.set(0);
+            liftMotorTalon.set(0);
         }
     }
 
@@ -85,11 +90,11 @@ public class Lift extends Subsystem{
     }
 
     // public void compareEncoder() {
-    //     currentEncoderValue = liftMotorEncoder.getPosition();
-    //     encoderDifference = currentEncoderValue - lastEncoderValue;
+    // currentEncoderValue = liftMotorEncoder.getPosition();
+    // encoderDifference = currentEncoderValue - lastEncoderValue;
 
-    //     SmartDashboard.putNumber("Encoder value Difference", encoderDifference);
-    //     SmartDashboard.putNumber("Current Encoder Value", currentEncoderValue);
+    // SmartDashboard.putNumber("Encoder value Difference", encoderDifference);
+    // SmartDashboard.putNumber("Current Encoder Value", currentEncoderValue);
 
     // }
 }

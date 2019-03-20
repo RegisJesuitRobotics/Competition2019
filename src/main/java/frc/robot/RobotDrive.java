@@ -11,7 +11,7 @@ public class RobotDrive {
 
 	public RobotDrive(PlaystationController controller) {
 		_controller = controller;
-		_frontRight = new WPI_VictorSPX(4);
+		_frontRight = new WPI_VictorSPX(0);
 		_frontLeft = new WPI_VictorSPX(2);
 		_backRight = new WPI_VictorSPX(1);
 		_backLeft = new WPI_VictorSPX(3);

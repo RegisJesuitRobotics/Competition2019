@@ -17,7 +17,7 @@ public class Elevator {
         elevatorLiftMotor = new Relay (6);
     }
 
-    // public void elevatorUp(){
+    // public void elevatorUpAndDown(){
     //     if (_controller.isDPadUp() == true){
     //         elevatorLiftMotor.set(Value.kOn);
     //     }
