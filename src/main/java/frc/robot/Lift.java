@@ -30,6 +30,7 @@ public class Lift extends Subsystem {
         presetLiftIsRunning = false;
         LiftDeadzone = 0.1;
      
+        //CHANGE THESE BEFORE STUFF AT DU
 
         LowBall = 23000;
         MidBall = 55000;
