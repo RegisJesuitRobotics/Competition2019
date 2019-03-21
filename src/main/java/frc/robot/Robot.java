@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
   private RobotDrive _drive;
   private Jaw _jaw;
   public Lift _lift;
+  public CameraView _cam;
 
   private boolean _isPlacingHatch = false;
 
@@ -31,10 +32,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
+    _cam = new CameraView();
     _jaw = new Jaw(_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
 
+    _cam.cameraInit();
   }
 
   /**
