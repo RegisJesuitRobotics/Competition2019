@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
   private RobotDrive _drive;
   private Jaw _jaw;
   public Lift _lift;
-
+  public CameraView _cam;
   private boolean _isPlacingHatch = false;
 
   /**encoder
@@ -34,7 +34,9 @@ public class Robot extends TimedRobot {
     _jaw = new Jaw(_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
+    _cam = new CameraView();
 
+    _cam.cameraInit();
   }
 
   /**

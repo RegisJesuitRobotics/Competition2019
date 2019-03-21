@@ -7,29 +7,29 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Jaw {
     DigitalInput hatchLimitSwitch;
-    Relay B1_hatchPivotMotor, B2_ballPivotMotor, NR1_hatchIntakeMotor, NR2_ballIntakeMotor;
+    Relay B1_hatchPivotMotor, B2_ballPivotMotor, NR1_IntakeMotor;
     PlaystationController _playstation;
 
     public Jaw(PlaystationController controller) {
         hatchLimitSwitch = new DigitalInput(2);
-        B1_hatchPivotMotor = new Relay(3);
-        B2_ballPivotMotor = new Relay(0);
-        NR1_hatchIntakeMotor = new Relay(2);
-        NR2_ballIntakeMotor = new Relay(1);
+        B1_hatchPivotMotor = new Relay(1);
+        B2_ballPivotMotor = new Relay(3);
+        NR1_IntakeMotor = new Relay(2);
+       // NR2_ballIntakeMotor = new Relay(1);
         _playstation = controller;
     }
 
     public void feedLowerJaw() {
         // && hatchLimitSwitch.get() == true
         if (_playstation.ButtonL1() == true) {
-            NR1_hatchIntakeMotor.set(Value.kForward);
+            NR1_IntakeMotor.set(Value.kForward);
             //System.out.println("On Feed Forward Lower Jaw");
         } else if(_playstation.ButtonR1  () == true){
-            NR1_hatchIntakeMotor.set(Value.kReverse);
+            NR1_IntakeMotor.set(Value.kReverse);
             //System.out.println("On Feed Reverse Lower Jaw");
         }
         else {
-            NR1_hatchIntakeMotor.set(Value.kOff);
+            NR1_IntakeMotor.set(Value.kOff);
             //System.out.println("Off Feed Lower Jaw");
         }
 
@@ -49,12 +49,12 @@ public class Jaw {
 
     public void feedTopJaw() {
         if (_playstation.ButtonR1() == true) {
-            NR2_ballIntakeMotor.set(Value.kReverse);
+            NR1_IntakeMotor.set(Value.kReverse);
         } else if(_playstation.ButtonL1() == true){
-            NR2_ballIntakeMotor.set(Value.kForward);
+            NR1_IntakeMotor.set(Value.kForward);
         }
         else {
-            NR2_ballIntakeMotor.set(Value.kOff);
+            NR1_IntakeMotor.set(Value.kOff);
         }
 
     }
