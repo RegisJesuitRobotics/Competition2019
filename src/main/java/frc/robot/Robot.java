@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
+    _cam = new CameraView();
     _jaw = new Jaw(_controller);
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
