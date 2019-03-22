@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
     _drive = new RobotDrive(_controller);
     _lift = new Lift(_controller);
     _cam = new CameraView();
-
     _cam.cameraInit();
   }
 
@@ -74,7 +73,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-
+    _drive.drive();
+    _lift.LiftHold();
+    _jaw.feedTopJaw();
+    _jaw.bottomJawPivot();
+    _jaw.topJawPivot();
+    _jaw.feedLowerJaw();
+    Scheduler.getInstance().run();
   }
 
   @Override

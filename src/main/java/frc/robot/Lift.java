@@ -30,15 +30,15 @@ public class Lift extends Subsystem {
         presetLiftIsRunning = false;
         LiftDeadzone = 0.1;
      
-        //CHANGE THESE BEFORE STUFF AT DU
+        //CHANGE THESE BEFORE STUFF AST DU
 
         LowBall = 23000;
         MidBall = 55000;
         HighBall = 78000;
-        MidHatch = 39000;
-        HighHatch = 67000;
+        MidHatch = 40000;
+        HighHatch = 72000;
         Grab = 17000;
-        GrabberHigh = 80000;
+        GrabberHigh = 88000;
 
         SmartDashboard.putData("LowBall", new LiftButtons(LowBall, this));
         SmartDashboard.putData("MidBall", new LiftButtons(MidBall, this));
