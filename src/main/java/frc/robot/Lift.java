@@ -35,8 +35,8 @@ public class Lift extends Subsystem {
         LowBall = 23000;
         MidBall = 55000;
         HighBall = 78000;
-        MidHatch = 40000;
-        HighHatch = 72000;
+        MidHatch = 45000;
+        HighHatch = 72500;
         Grab = 17000;
         GrabberHigh = 88000;
 
