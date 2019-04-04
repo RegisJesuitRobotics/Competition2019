@@ -9,6 +9,6 @@ public class CameraView extends IterativeRobot {
     public void cameraInit(){
         UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture();
         frontCamera.setResolution(640, 480);
-        frontCamera.setFPS(30);
+        frontCamera.setFPS(24);
     }
 }
