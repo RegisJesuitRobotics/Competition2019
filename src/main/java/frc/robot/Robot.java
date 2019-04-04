@@ -19,10 +19,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 public class Robot extends TimedRobot {
   private PlaystationController _controller;
   private RobotDrive _drive;
-  private Jaw _jaw;
-  public Lift _lift;
-  public CameraView _cam;
-  private boolean _isPlacingHatch = false;
+ // private Jaw _jaw;
+ // public Lift _lift;
+ // public CameraView _cam;
+ // private boolean _isPlacingHatch = false;
 
   /**encoder
    * This function is run when the robot is first started up and should be used
@@ -31,12 +31,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     _controller = new PlaystationController(0);
-    _cam = new CameraView();
-    _jaw = new Jaw(_controller);
+   // _cam = new CameraView();
+   // _jaw = new Jaw(_controller);
     _drive = new RobotDrive(_controller);
-    _lift = new Lift(_controller);
-    _cam = new CameraView();
-    _cam.cameraInit();
+   // _lift = new Lift(_controller);
+   // _cam = new CameraView();
+    //_cam.cameraInit();
   }
 
   /**
@@ -75,12 +75,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     _drive.drive();
-    _lift.LiftHold();
-    _jaw.feedTopJaw();
-    _jaw.bottomJawPivot();
-    _jaw.topJawPivot();
-    _jaw.feedLowerJaw();
-    Scheduler.getInstance().run();
+   //_lift.LiftHold();
+   //_jaw.feedTopJaw();
+   //_jaw.bottomJawPivot();
+   //_jaw.topJawPivot();
+  //_jaw.feedLowerJaw();
+  //Scheduler.getInstance().run();
   }
 
   @Override
@@ -91,15 +91,16 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during operator control.
    */
+  //  Uncomment Everything in TeleopPeriodic and in AutonomousPeriodic once at competition
   @Override
   public void teleopPeriodic() {
     _drive.drive();
-    _lift.LiftHold();
-    _jaw.feedTopJaw();
-    _jaw.bottomJawPivot();
-    _jaw.topJawPivot();
-    _jaw.feedLowerJaw();
-    Scheduler.getInstance().run();
+    //_lift.LiftHold();
+    //_jaw.feedTopJaw();
+    //_jaw.bottomJawPivot();
+    //_jaw.topJawPivot();
+    //_jaw.feedLowerJaw();
+    //Scheduler.getInstance().run();
   }
 
   /**

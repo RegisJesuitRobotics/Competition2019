@@ -1,35 +1,33 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Relay.Value;
-import edu.wpi.first.wpilibj.DigitalInput;
-
+//import edu.wpi.first.wpilibj.Relay;
+//import edu.wpi.first.wpilibj.Relay.Value;
+//import edu.wpi.first.wpilibj.DigitalInput;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Jaw {
-    DigitalInput hatchLimitSwitch;
-    Relay B1_hatchPivotMotor, B2_ballPivotMotor, NR1_IntakeMotor;
+    //Relay B1_hatchPivotMotor, B2_ballPivotMotor, NR1_IntakeMotor;
     PlaystationController _playstation;
-
+    WPI_TalonSRX B1_hatchPivotMotor, B2_ballPivotMotor, NR1_IntakeMotor, NR2_ballIntakeMotor;
     public Jaw(PlaystationController controller) {
-        hatchLimitSwitch = new DigitalInput(2);
-        B1_hatchPivotMotor = new Relay(1);
-        B2_ballPivotMotor = new Relay(3);
-        NR1_IntakeMotor = new Relay(2);
-       // NR2_ballIntakeMotor = new Relay(1);
+        B1_hatchPivotMotor = new WPI_TalonSRX(5);
+        B2_ballPivotMotor = new WPI_TalonSRX(6);
+        NR1_IntakeMotor = new WPI_TalonSRX(7);
+        NR2_ballIntakeMotor = new WPI_TalonSRX(8);
         _playstation = controller;
     }
 
     public void feedLowerJaw() {
         // && hatchLimitSwitch.get() == true
-        if (_playstation.ButtonL1() == true) {
-            NR1_IntakeMotor.set(Value.kForward);
+       if (_playstation.ButtonL1() == true) { 
+           NR1_IntakeMotor.set(0.7);
             //System.out.println("On Feed Forward Lower Jaw");
-        } else if(_playstation.ButtonR1  () == true){
-            NR1_IntakeMotor.set(Value.kReverse);
+} else if(_playstation.ButtonR1  () == true){
+            NR1_IntakeMotor.set(-0.7);
             //System.out.println("On Feed Reverse Lower Jaw");
         }
         else {
-            NR1_IntakeMotor.set(Value.kOff);
+            NR1_IntakeMotor.set(0);
             //System.out.println("Off Feed Lower Jaw");
         }
 
@@ -37,38 +35,38 @@ public class Jaw {
 
     public void bottomJawPivot() {
         if (_playstation.ButtonCircle() == true) {
-            B1_hatchPivotMotor.set(Value.kReverse);
+            B1_hatchPivotMotor.set(-0.5);
         } else if (_playstation.ButtonX()  == true) {
-            B1_hatchPivotMotor.set(Value.kForward);
+            B1_hatchPivotMotor.set(0.5);
         }
         else {
-            B1_hatchPivotMotor.set(Value.kOff);
+            B1_hatchPivotMotor.set(0);
         }
 
     }
 
     public void feedTopJaw() {
         if (_playstation.ButtonR1() == true) {
-            NR1_IntakeMotor.set(Value.kReverse);
+            NR1_IntakeMotor.set(-0.7);
         } else if(_playstation.ButtonL1() == true){
-            NR1_IntakeMotor.set(Value.kForward);
+            NR1_IntakeMotor.set(0.7);
         }
         else {
-            NR1_IntakeMotor.set(Value.kOff);
+            NR1_IntakeMotor.set(0);
         }
 
     }
 
     public void topJawPivot() {
         if (_playstation.ButtonTriangle()  == true) {
-            B2_ballPivotMotor.set(Value.kReverse);
+            B2_ballPivotMotor.set(-0.5);
             System.out.println("Top Jaw Up");
         } else if (_playstation.ButtonSquare() == true) {
-            B2_ballPivotMotor.set(Value.kForward);
+            B2_ballPivotMotor.set(0.5);
              System.out.println("Top Jaw Down");
         }
         else {
-            B2_ballPivotMotor.set(Value.kOff);
+            B2_ballPivotMotor.set(0);
         }
 
     }

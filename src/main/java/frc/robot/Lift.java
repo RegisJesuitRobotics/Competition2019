@@ -16,12 +16,12 @@ public class Lift extends Subsystem {
     PlaystationController _playstation;
     boolean presetLiftIsRunning = false;
     double lastEncoderValue, currentEncoderValue, encoderDifference;
-    double HighBall, MidBall, LowBall, HighHatch, MidHatch, LowHatch, Grab, GrabberHigh;
+    double HighBall, MidBall, LowBall, JawHighHatch, JawMidHatch, GrabSetup, GrabberHigh, GrabberMid;
     double LiftDeadzone;
     WPI_TalonSRX liftMotorTalon;
 
     public Lift(PlaystationController controller) {
-        liftMotorTalon = new WPI_TalonSRX(5);
+        liftMotorTalon = new WPI_TalonSRX(9);
         liftMotorTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
         liftMotorTalon.setSelectedSensorPosition(0, 0, 0);
         _playstation = controller;
@@ -30,24 +30,25 @@ public class Lift extends Subsystem {
         presetLiftIsRunning = false;
         LiftDeadzone = 0.1;
      
-        //CHANGE THESE BEFORE STUFF AST DU
 
         LowBall = 23000;
         MidBall = 55000;
         HighBall = 78000;
-        MidHatch = 45000;
-        HighHatch = 72500;
-        Grab = 17000;
-        GrabberHigh = 88000;
+        JawMidHatch = 45000;
+        JawHighHatch = 72500;
+        GrabSetup = 17000;
+        GrabberHigh = 6969;
+        GrabberMid = 6969;
 
-        SmartDashboard.putData("LowBall", new LiftButtons(LowBall, this));
-        SmartDashboard.putData("MidBall", new LiftButtons(MidBall, this));
-        SmartDashboard.putData("HighBall", new LiftButtons(HighBall, this));
-        SmartDashboard.putData("MidHatch", new LiftButtons(MidHatch, this));
-        SmartDashboard.putData("HighHatch", new LiftButtons(HighHatch, this));
-        SmartDashboard.putData("Grab", new LiftButtons(Grab, this));
-        SmartDashboard.putData("GrabberHigh", new LiftButtons(GrabberHigh, this));
-        SmartDashboard.putData("ResetEncoder", new ResetEncoder(this));
+        SmartDashboard.putData("Low Ball", new LiftButtons(LowBall, this));
+        SmartDashboard.putData("Mid Ball", new LiftButtons(MidBall, this));
+        SmartDashboard.putData("High Ball", new LiftButtons(HighBall, this));
+        SmartDashboard.putData("Jaw Mid Hatch", new LiftButtons(JawMidHatch, this));
+        SmartDashboard.putData("Jaw High Hatch", new LiftButtons(JawHighHatch, this));
+        SmartDashboard.putData("Grab", new LiftButtons(GrabSetup, this));
+        SmartDashboard.putData("Grabber High", new LiftButtons(GrabberHigh, this));
+        SmartDashboard.putData("Grabber Mid", new LiftButtons(GrabberMid, this));
+        SmartDashboard.putData("Reset Encoder", new ResetEncoder(this));
     
 
     }

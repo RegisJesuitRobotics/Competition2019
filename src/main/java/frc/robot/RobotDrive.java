@@ -1,22 +1,21 @@
 package frc.robot;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotDrive {
 	private PlaystationController _controller;
 	private WPI_VictorSPX _frontRight, _frontLeft, _backRight, _backLeft;
-
+	private WPI_TalonSRX _iWantToDie;
 	public RobotDrive(PlaystationController controller) {
 		_controller = controller;
 		_frontRight = new WPI_VictorSPX(4);
 		_frontLeft = new WPI_VictorSPX(2);
 		_backRight = new WPI_VictorSPX(1);
 		_backLeft = new WPI_VictorSPX(3);
+		_iWantToDie = new WPI_TalonSRX(5);
 	}
-
 
 	public void drive() {
 		double RightTrigger = _controller.RightTrigger();
@@ -54,4 +53,5 @@ public class RobotDrive {
 		_frontRight.set(-RightPower * Limiter);
 		_backRight.set(-RightPower * Limiter);
 	}
+	
 }
